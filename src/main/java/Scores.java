@@ -1,50 +1,107 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.sun.deploy.util.StringUtils;
+
+import java.util.*;
+
+import static org.apache.commons.lang3.StringUtils.countMatches;
 
 public class Scores {
 
     public Map totalScore(String points) {
 
-        //Map<String,Integer> totalPoints = new HashMap<String,Integer>();
+        Player player1 = new Player("a");
+        Player player2 = new Player("b");
+        Player player3 = new Player("c");
+        Player player4 = new Player("d");
+        Player player5 = new Player("e");
 
+        Map<String, Integer> totalPoints = new LinkedHashMap<>();
 
-
-        Map<Player,Integer> totalPoints = new HashMap<Player,Integer>();
+        totalPoints.put(player1.getId(), 0);
+        totalPoints.put(player2.getId(), 0);
+        totalPoints.put(player3.getId(), 0);
+        totalPoints.put(player4.getId(), 0);
+        totalPoints.put(player5.getId(), 0);
 
         for (int i = 0; i < points.length(); i++) {
 
-            Character c = points.charAt(i);
+            char ch = points.charAt(i);
+            String c = Character.toString(ch);
 
-            Player player = new Player(c);
+            int count = 0;
 
-            if(player.getId().equals(c)){
-                totalPoints.put(player, 1);
+            if (totalPoints.containsKey(c)) {
+
+                count = totalPoints.get(c) +1;
+
+            } else if (c.contains(c.toUpperCase())) {
+
+                count = totalPoints.get(c.toLowerCase()) -1 ;
+
             }
 
-          /*  if (c.equals('a')){
-
-                totalPoints.put("a", 1);
-
-            } else if (c.equals('b')) {
-
-                totalPoints.put("b", 1);
-
-            } else if (c.equals('c')) {
-
-                totalPoints.put("c", 1);
-
-            } else if (c.equals('d')) {
-
-                totalPoints.put("d", 1);
-
-            } else if (c.equals('e')) {
-
-                totalPoints.put("e", 1);
-            }*/
+            totalPoints.put(c.toLowerCase(), count);
 
         }
+
+        return totalPoints;
+
+    }
+
+    public Map tallyScores(String points) {
+
+        int count = countMatches(points, "a");
+
+        System.out.println(count);
+
+        Map<String,Integer> totalPoints = new HashMap<>();
+
+        totalPoints.put("a", count);
+
+        return totalPoints;
+
+    }
+
+    public Map tallyScores2(String points) {
+
+
+        Map<String, Integer> totalPoints = new LinkedHashMap<>();
+
+        totalPoints.put("a", 0);
+        totalPoints.put("b", 0);
+        totalPoints.put("c", 0);
+        totalPoints.put("d", 0);
+        totalPoints.put("e", 0);
+
+        totalPoints.forEach((k,v) -> {
+
+            if (points.contains(k)) {
+
+                totalPoints.put(k,totalPoints.get(k)+1);
+
+            } else  {
+
+                totalPoints.put(k,totalPoints.get(k)-1);
+            }
+          // int count =  -countMatches(points, k.toUpperCase());
+
+         //  totalPoints.put(k,count);
+
+
+        });
+
+/*
+
+            if (totalPoints.containsKey(c)) {
+
+                count = totalPoints.get(c) +1;
+
+            } else if (c.contains(c.toUpperCase())) {
+
+                count = totalPoints.get(c.toLowerCase()) -1 ;
+
+            }
+
+            totalPoints.put(c.toLowerCase(), count);*/
 
         return totalPoints;
 

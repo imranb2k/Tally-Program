@@ -1,62 +1,71 @@
 import org.junit.*;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.contains;
 
 public class ScoresTest {
 
-    @Ignore
-    @Test
-    public void testScores(){
 
-        Map <String, Integer> expected = new HashMap<String, Integer>();
-        expected.put("a", 1);
-        expected.put("c", 1);
-        expected.put("b", 1);
-        expected.put("d", 1);
-        expected.put("e", 1);
+    @Test
+    public void scoresTest(){
 
         String scores = "abcde";
 
         Scores scoresTally = new Scores();
 
-        Map <String, Integer> totalScores = new HashMap<String, Integer>();
+        Map <String, Integer> totalScores = scoresTally.totalScore(scores);
 
-        totalScores = scoresTally.totalScore(scores);
-
-      //  totalScores.forEach(( k,v) -> System.out.println(k + " " + v));
-
-        assertThat(totalScores, is(expected));
+        assertThat(totalScores.values(), contains(1,1,1,1,1));
     }
+
 
     @Test
     public void scoresTest2(){
 
-        Player player1 = new Player('a');
-        Player player2 = new Player('b');
-        Player player3 = new Player('c');
-        Player player4 = new Player('d');
-        Player player5 = new Player('e');
-
-        Map <Player, Integer> expected = new LinkedHashMap<Player, Integer>();
-        expected.put(player1, 1);
-        expected.put(player2, 1);
-        expected.put(player3, 1);
-        expected.put(player4, 1);
-        expected.put(player5, 1);
-
-        String scores = "abcde";
+        String scores = "aabcde";
 
         Scores scoresTally = new Scores();
 
-        Map <String, Integer> totalScores = new HashMap<String, Integer>();
+        Map <String, Integer> totalScores = scoresTally.totalScore(scores);
 
-        totalScores = scoresTally.totalScore(scores);
+        assertThat(totalScores.values(), contains(2,1,1,1,1));
+    }
 
-        assertThat(totalScores, is(expected.toString()));
+    @Test
+    public void scoresTest3(){
+
+        String scores = "aabbbbccdddeeeeee";
+
+        Scores scoresTally = new Scores();
+
+        Map <String, Integer> totalScores = scoresTally.totalScore(scores);
+
+        assertThat(totalScores.values(), contains(2,4,2,3,6));
+    }
+
+
+    @Test
+    public void scoresTest4(){
+
+        String scores = "dbbaCEDbdAacCEAadcB";
+
+        Scores scoresTally = new Scores();
+
+        Map <String, Integer> totalScores = scoresTally.totalScore(scores);
+
+
+        assertThat(totalScores.values(), contains(1,2,0,2,-2));
+    }
+
+    @Test
+    public void scoresTest5(){
+
+        String scores = "aAbcde";
+
+        Scores scoresTally = new Scores();
+
+        scoresTally.tallyScores2(scores).forEach((k,v) -> System.out.println(k + " " + v));
     }
 }
